@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js boilerplate (vitest + react testing library (with jest dom) + tailwindcss + eslint + prettier + husky + commitlint)
 
-## Getting Started
+This is a Next.js boilerplate that comes with the following features:
 
-First, run the development server:
+- [Vitest](https://vitest.dev/) for testing
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing React components
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- [ESLint](https://eslint.org/) for linting
+- [Prettier](https://prettier.io/) for code formatting
+- [Husky](https://typicode.github.io/husky/#/) for Git hooks (like pre-commit for automatically lint your commit messages, code, and run tests upon committing or pushing).
+- [Commitlint](https://commitlint.js.org/) for commit message linting
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## New options applied (after initializing libraries)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### React Testing Library (with Jest DOM)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Configure TypeScript and Vitest to accept Jest DOM useful matchers like toBeInTheDocument, toHaveClass, toBeDisabled, toHaveAttribute, etc. (see [@testing-library/jest-dom](https://www.npmjs.com/package/@testing-library/jest-dom) for more details).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Husky
 
-## Learn More
+- Runs every commit (in order) to ensure code quality and consistency:
+  - commitlint (for commit message linting)
+  - npm test (for running tests)
+  - npm run lint (for linting the codebase)
+  - npm run format (for formatting the codebase with Prettier only if needed)
 
-To learn more about Next.js, take a look at the following resources:
+### Prettier
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- npm script `format` is added to format the codebase with Prettier just when there's unformatted files (runs `--check` before `--write`).
+- Better integration with ESLint using `eslint-config-prettier`.
+- Intentional config options (e.g., `tabWidth`, `semi`, `singleQuote`) are set to ensure consistency.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### TailwindCSS
 
-## Deploy on Vercel
+- Automatically sorts classes based on TailwindCSS team's recommended class order with prettier plugin (prettier-plugin-tailwindcss)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Vitest
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Configured to work with compatible @types/node v22.12.0 (`create-next-app@latest` (version v16) starts with incompatible v20).
+- Globals enabled with typescript support (like Jest does automatically).
+- The test environment is set to `jsdom` for testing React components.
+- Use the new tsconfigPaths native option instead of deprecated `vite-tsconfig-paths` plugin for path aliasing.
