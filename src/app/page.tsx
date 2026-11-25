@@ -4,8 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import {
   Trophy,
   Flame,
-  Sun,
-  Moon,
   Plus,
   X,
   ArrowRight,
@@ -13,10 +11,9 @@ import {
   Check,
   Sparkles,
 } from "lucide-react";
+import ThemeToggle from "@/components/theme-toggle";
 
-// Chaves do LocalStorage
 const STORAGE_KEY = "uno_focus_react_state_v1";
-const THEME_KEY = "uno_react_theme_v1";
 
 // Frases motivacionais exibidas ao conquistar uma tarefa
 const VICTORY_QUOTES = [
@@ -46,16 +43,6 @@ export default function App() {
   // =================================================================
   // 1. ESTADOS PRINCIPAIS
   // =================================================================
-  const [darkMode, setDarkMode] = useState(() => {
-    try {
-      const saved = localStorage.getItem(THEME_KEY);
-      if (saved) return saved === "dark";
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    } catch {
-      return false;
-    }
-  });
-
   // Estado persistido: tarefa ativa e estatísticas de conquista
   const [activeTask, setActiveTask] = useState<ActiveTask | null>(() => {
     try {
@@ -107,16 +94,6 @@ export default function App() {
   // =================================================================
   // 2. EFEITOS DE PERSISTÊNCIA E TEMA
   // =================================================================
-  useEffect(() => {
-    const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-      localStorage.setItem(THEME_KEY, "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem(THEME_KEY, "light");
-    }
-  }, [darkMode]);
 
   useEffect(() => {
     try {
@@ -400,19 +377,7 @@ export default function App() {
 
           <div className="mx-0.5 h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
 
-          {/* Toggle Dark / Light */}
-          <button
-            type="button"
-            onClick={() => setDarkMode((prev) => !prev)}
-            aria-label="Alternar tema"
-            className="cursor-pointer rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100"
-          >
-            {darkMode ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
-          </button>
+          <ThemeToggle />
         </div>
       </header>
 
