@@ -1,3 +1,5 @@
+"use client";
+
 import { useStats } from "@/contexts/stats";
 import { Flame, Trophy } from "lucide-react";
 

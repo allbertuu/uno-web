@@ -1,3 +1,5 @@
+"use client";
+
 import localStorageKeys from "@/constants/localStorageKeys";
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
