@@ -16,6 +16,7 @@ import BriefStats from "@/components/brief-stats";
 import { useStats } from "@/contexts/stats";
 import StatsIcons from "@/components/stats-icons";
 import useLocalStorageSynchronization from "@/hooks/use-local-storage-synchronization";
+import Confetti from "@/components/confetti";
 
 // Frases motivacionais exibidas ao conquistar uma tarefa
 const VICTORY_QUOTES = [
@@ -44,17 +45,8 @@ export default function App() {
   // Estados da tela de foco e vitória
   const [showAbandonConfirm, setShowAbandonConfirm] = useState(false);
   const [victoryData, setVictoryData] = useState({ title: "", quote: "" });
-  const [confettiParticles, setConfettiParticles] = useState<
-    {
-      id: number;
-      color: string;
-      left: string;
-      delay: string;
-      dx: string;
-      dy: string;
-      rotate: string;
-    }[]
-  >([]);
+
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const titleRef = useRef<HTMLInputElement>(null);
   // Foca automaticamente no título quando entra na tela de criação
@@ -169,7 +161,6 @@ export default function App() {
 
     const finishedTitle = activeTask.title;
     const randomQuote =
-      // eslint-disable-next-line react-hooks/purity
       VICTORY_QUOTES[Math.floor(Math.random() * VICTORY_QUOTES.length)];
 
     setStats((prev) => ({
@@ -180,23 +171,7 @@ export default function App() {
     setVictoryData({ title: finishedTitle, quote: randomQuote });
     setActiveTask(null);
     setView("victory");
-    triggerCelebrationParticles();
-  };
-
-  // Gera partículas leves em CSS puro para celebração sem dependências externas
-  const triggerCelebrationParticles = () => {
-    const colors = ["#10b981", "#f59e0b", "#3b82f6", "#ec4899", "#8b5cf6"];
-    const particles = Array.from({ length: 36 }).map((_, i) => ({
-      id: i,
-      color: colors[i % colors.length],
-      left: `${15 + Math.random() * 70}%`,
-      delay: `${Math.random() * 0.25}s`,
-      dx: `${(Math.random() - 0.5) * 220}px`,
-      dy: `${-120 - Math.random() * 160}px`,
-      rotate: `${Math.random() * 360}deg`,
-    }));
-    setConfettiParticles(particles);
-    setTimeout(() => setConfettiParticles([]), 2200);
+    setShowConfetti(true);
   };
 
   const handleEditCurrentTask = () => {
@@ -227,6 +202,7 @@ export default function App() {
 
   const handleStartNextTask = () => {
     resetForm();
+    setShowConfetti(false);
     setView("create");
   };
 
@@ -250,22 +226,7 @@ export default function App() {
   // =================================================================
   return (
     <div className="relative flex min-h-screen flex-col justify-between overflow-x-hidden bg-[#FAFAFA] font-sans text-zinc-900 antialiased transition-colors duration-300 selection:bg-emerald-500/20 selection:text-emerald-700 dark:bg-[#0D0D0F] dark:text-zinc-100 dark:selection:text-emerald-300">
-      {/* Partículas de celebração */}
-      {confettiParticles.map((p) => (
-        <span
-          key={p.id}
-          className="confetti-piece"
-          style={{
-            backgroundColor: p.color,
-            left: p.left,
-            animationDelay: p.delay,
-            // @ts-expect-error no necessary
-            "--dx": p.dx,
-            "--dy": p.dy,
-            "--rot": p.rotate,
-          }}
-        />
-      ))}
+      {showConfetti && <Confetti />}
 
       {/* HEADER DISCRETO & 2 ÍCONES DE CONQUISTA */}
       <header className="z-10 mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-6">
@@ -289,7 +250,7 @@ export default function App() {
 
       {/* ÁREA CENTRAL PRINCIPAL */}
       <main className="flex flex-1 items-center justify-center px-4 py-6 sm:px-6">
-        <div className="w-full max-w-[540px]">
+        <div className="w-full max-w-135">
           {/* =========================================================
               VISÃO 1: CRIAÇÃO DA ÚNICA TAREFA
               ========================================================= */}
