@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import {
   Trophy,
-  Flame,
   Plus,
   X,
   ArrowRight,
@@ -12,8 +11,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import ThemeToggle from "@/components/theme-toggle";
-import localStorageKeys from "@/constants/localStorageKeys";
 import { useActiveTask } from "@/contexts/active-task";
+import BriefStats from "@/components/brief-stats";
+import { useStats } from "@/contexts/stats";
+import StatsIcons from "@/components/stats-icons";
+import useLocalStorageSynchronization from "@/hooks/use-local-storage-synchronization";
 
 // Frases motivacionais exibidas ao conquistar uma tarefa
 const VICTORY_QUOTES = [
@@ -24,29 +26,10 @@ const VICTORY_QUOTES = [
   "Missão cumprida. Sinta o peso sair dos ombros.",
 ];
 
-interface Stats {
-  conquered: number;
-  streak: number;
-}
-
 export default function App() {
-  const STORAGE_KEY = localStorageKeys.STORAGE;
-  // =================================================================
-  // 1. ESTADOS PRINCIPAIS
-  // =================================================================
-  // Estado persistido: tarefa ativa e estatísticas de conquista
-  const [stats, setStats] = useState<Stats>(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw
-        ? JSON.parse(raw).stats || { conquered: 0, streak: 0 }
-        : { conquered: 0, streak: 0 };
-    } catch {
-      return { conquered: 0, streak: 0 };
-    }
-  });
-
   const { activeTask, setActiveTask } = useActiveTask();
+  const { setStats } = useStats();
+  useLocalStorageSynchronization();
 
   // Controle de tela atual: 'create' | 'focus' | 'victory'
   const [view, setView] = useState(() => (activeTask ? "focus" : "create"));
@@ -74,19 +57,6 @@ export default function App() {
   >([]);
 
   const titleRef = useRef<HTMLInputElement>(null);
-
-  // =================================================================
-  // 2. EFEITOS DE PERSISTÊNCIA E TEMA
-  // =================================================================
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ activeTask, stats }));
-    } catch (e) {
-      console.error("Erro ao salvar no localStorage:", e);
-    }
-  }, [STORAGE_KEY, activeTask, stats]);
-
   // Foca automaticamente no título quando entra na tela de criação
   useEffect(() => {
     if (view === "create") {
@@ -337,27 +307,7 @@ export default function App() {
 
         {/* Conquistas & Alternador de Tema */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Ícone 1: Total de Tarefas Conquistadas */}
-          <div
-            title="Total de tarefas conquistadas"
-            className="flex cursor-default items-center gap-2 rounded-full border border-zinc-200/80 bg-white px-3.5 py-1.5 shadow-2xs transition-transform hover:scale-105 dark:border-zinc-800 dark:bg-zinc-900/90"
-          >
-            <Trophy className="h-4 w-4 text-amber-500" strokeWidth={2.1} />
-            <span className="text-xs font-semibold text-zinc-700 tabular-nums dark:text-zinc-300">
-              {stats.conquered}
-            </span>
-          </div>
-
-          {/* Ícone 2: Sequência Ininterrupta (Streak) */}
-          <div
-            title="Sequência ininterrupta de foco"
-            className="flex cursor-default items-center gap-1.5 rounded-full border border-zinc-200/80 bg-white px-3.5 py-1.5 shadow-2xs transition-transform hover:scale-105 dark:border-zinc-800 dark:bg-zinc-900/90"
-          >
-            <Flame className="h-4 w-4 text-orange-500" strokeWidth={2.1} />
-            <span className="text-xs font-semibold text-zinc-700 tabular-nums dark:text-zinc-300">
-              {stats.streak}
-            </span>
-          </div>
+          <StatsIcons />
 
           <div className="mx-0.5 h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
 
@@ -743,17 +693,7 @@ export default function App() {
                   com 100% dos critérios atendidos.
                 </p>
 
-                <div className="mb-8 inline-flex items-center gap-4 rounded-2xl border border-zinc-200/70 bg-zinc-50 px-5 py-2.5 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300">
-                  <span className="inline-flex items-center gap-1.5">
-                    <Trophy className="h-3.5 w-3.5 text-amber-500" />
-                    <strong>{stats.conquered}</strong> conquistadas
-                  </span>
-                  <span className="text-zinc-300 dark:text-zinc-700">|</span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Flame className="h-3.5 w-3.5 text-orange-500" />
-                    <strong>{stats.streak}</strong> em sequência
-                  </span>
-                </div>
+                <BriefStats />
 
                 <div>
                   <button

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ActiveTaskProvider } from "@/contexts/active-task";
+import { StatsProvider } from "@/contexts/stats";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <ActiveTaskProvider>{children}</ActiveTaskProvider>
+        <StatsProvider>
+          <ActiveTaskProvider>{children}</ActiveTaskProvider>
+        </StatsProvider>
       </body>
     </html>
   );
