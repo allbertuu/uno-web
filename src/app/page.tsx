@@ -250,34 +250,6 @@ export default function App() {
   // =================================================================
   return (
     <div className="relative flex min-h-screen flex-col justify-between overflow-x-hidden bg-[#FAFAFA] font-sans text-zinc-900 antialiased transition-colors duration-300 selection:bg-emerald-500/20 selection:text-emerald-700 dark:bg-[#0D0D0F] dark:text-zinc-100 dark:selection:text-emerald-300">
-      {/* Estilos embutidos para micro-animações */}
-      <style>{`
-        @keyframes unoFadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes unoScaleIn {
-          from { opacity: 0; transform: scale(0.97); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes confettiBurst {
-          0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
-          100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.4) rotate(var(--rot)); }
-        }
-        .animate-uno-fade { animation: unoFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-uno-scale { animation: unoScaleIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .confetti-piece {
-          position: fixed;
-          top: 52%;
-          width: 8px;
-          height: 8px;
-          border-radius: 3px;
-          pointer-events: none;
-          z-index: 50;
-          animation: confettiBurst 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-      `}</style>
-
       {/* Partículas de celebração */}
       {confettiParticles.map((p) => (
         <span
