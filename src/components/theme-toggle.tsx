@@ -1,9 +1,10 @@
+import localStorageKeys from "@/constants/localStorageKeys";
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const THEME_KEY = "uno_react_theme_v1";
-
 export default function ThemeToggle() {
+  const THEME_KEY = localStorageKeys.THEME;
+
   const [darkMode, setDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem(THEME_KEY);
@@ -23,7 +24,7 @@ export default function ThemeToggle() {
       root.classList.remove("dark");
       localStorage.setItem(THEME_KEY, "light");
     }
-  }, [darkMode]);
+  }, [THEME_KEY, darkMode]);
 
   return (
     <button

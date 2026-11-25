@@ -12,8 +12,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import ThemeToggle from "@/components/theme-toggle";
-
-const STORAGE_KEY = "uno_focus_react_state_v1";
+import localStorageKeys from "@/constants/localStorageKeys";
+import { useActiveTask } from "@/contexts/active-task";
 
 // Frases motivacionais exibidas ao conquistar uma tarefa
 const VICTORY_QUOTES = [
@@ -24,35 +24,17 @@ const VICTORY_QUOTES = [
   "Missão cumprida. Sinta o peso sair dos ombros.",
 ];
 
-interface ActiveTask {
-  title: string;
-  deadline: string;
-  criteria: {
-    id: string;
-    text: string;
-    done: boolean;
-  }[];
-}
-
 interface Stats {
   conquered: number;
   streak: number;
 }
 
 export default function App() {
+  const STORAGE_KEY = localStorageKeys.STORAGE;
   // =================================================================
   // 1. ESTADOS PRINCIPAIS
   // =================================================================
   // Estado persistido: tarefa ativa e estatísticas de conquista
-  const [activeTask, setActiveTask] = useState<ActiveTask | null>(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw).activeTask || null : null;
-    } catch {
-      return null;
-    }
-  });
-
   const [stats, setStats] = useState<Stats>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -63,6 +45,8 @@ export default function App() {
       return { conquered: 0, streak: 0 };
     }
   });
+
+  const { activeTask, setActiveTask } = useActiveTask();
 
   // Controle de tela atual: 'create' | 'focus' | 'victory'
   const [view, setView] = useState(() => (activeTask ? "focus" : "create"));
@@ -101,7 +85,7 @@ export default function App() {
     } catch (e) {
       console.error("Erro ao salvar no localStorage:", e);
     }
-  }, [activeTask, stats]);
+  }, [STORAGE_KEY, activeTask, stats]);
 
   // Foca automaticamente no título quando entra na tela de criação
   useEffect(() => {
