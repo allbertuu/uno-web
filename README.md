@@ -1,42 +1,51 @@
-# Next.js boilerplate (vitest + react testing library (with jest dom) + tailwindcss + eslint + prettier + husky + commitlint)
+# Uno
 
-This is a Next.js boilerplate that comes with the following features:
+![GitHub repo size](https://img.shields.io/github/repo-size/allbertuu/uno-web?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/allbertuu/uno-web?style=for-the-badge)
 
-- [Vitest](https://vitest.dev/) for testing
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing React components
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-- [ESLint](https://eslint.org/) for linting
-- [Prettier](https://prettier.io/) for code formatting
-- [Husky](https://typicode.github.io/husky/#/) for Git hooks (like pre-commit for automatically lint your commit messages, code, and run tests upon committing or pushing).
-- [Commitlint](https://commitlint.js.org/) for commit message linting
+<img src="uno-banner.jpg" width="800px" alt="Uno - Uma tarefa de cada vez">
 
-## New options applied (after initializing libraries)
+O **Uno** coloca apenas uma tarefa no centro da tela para tornar o trabalho mais fácil sem distrações, mais claro com critérios de aceite objetivos e mais satisfatório ao transformar cada entrega em uma conquista imediata.
 
-### React Testing Library (with Jest DOM)
+## ✨ Funcionalidades
 
-- Configure TypeScript and Vitest to accept Jest DOM useful matchers like toBeInTheDocument, toHaveClass, toBeDisabled, toHaveAttribute, etc. (see [@testing-library/jest-dom](https://www.npmjs.com/package/@testing-library/jest-dom) for more details).
+O **Uno** foi projetado para eliminar a sobrecarga cognitiva e manter você em estado de fluxo:
 
-### Husky
+- **Foco Único e Centralizado:** Permite criar e gerenciar apenas **1 tarefa ativa por vez**, exibida de forma limpa e centralizada com título e prazo definido.
+- **Critérios de Aceite Interativos:** Quebre o objetivo em etapas verificáveis com checkboxes táteis e acompanhe a barra de progresso em tempo real.
+- **Botão "Conquistar" Inteligente:** Permanece desativado até que 100% dos critérios de aceite sejam marcados, garantindo entregas completas e celebrando a conclusão com feedback visual.
+- **Gamificação Minimalista:** Contadores de **total de conquistas** (troféu) e **sequência de foco** (chama) para estimular a consistência diária sem ruído visual.
+- **Persistência Automática e Tema Adaptável:** Salva seu progresso, estatísticas e preferência entre modo claro e escuro diretamente no navegador (`localStorage`).
 
-- Runs every commit (in order) to ensure code quality and consistency:
-  - commitlint (for commit message linting)
-  - npm test (for running tests)
-  - npm run lint (for linting the codebase)
-  - npm run format (for formatting the codebase with Prettier only if needed)
+## 🛠️ Tecnologias
 
-### Prettier
+O projeto foi construído com foco em performance, tipagem segura, qualidade de código e confiabilidade:
 
-- npm script `format` is added to format the codebase with Prettier just when there's unformatted files (runs `--check` before `--write`).
-- Better integration with ESLint using `eslint-config-prettier`.
-- Intentional config options (e.g., `tabWidth`, `semi`, `singleQuote`) are set to ensure consistency.
+- **Core & Interface:** Next.js, React, TypeScript
+- **Estilização:** TailwindCSS e ícones minimalistas (Lucide React)
+- **Qualidade & Testes Automatizados:** Vitest e Testing Library para garantir a estabilidade dos fluxos de criação, progresso e conclusão de tarefas
 
-### TailwindCSS
+## 🚀 Instalando o Uno
 
-- Automatically sorts classes based on TailwindCSS team's recommended class order with prettier plugin (prettier-plugin-tailwindcss)
+### 💻 Pré-requisitos
 
-### Vitest
+Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Configured to work with compatible @types/node v22.12.0 (`create-next-app@latest` (version v16) starts with incompatible v20).
-- Globals enabled with typescript support (like Jest does automatically).
-- The test environment is set to `jsdom` for testing React components.
-- Use the new tsconfigPaths native option instead of deprecated `vite-tsconfig-paths` plugin for path aliasing.
+- Você instalou a versão mais recente do **Node.js** (v18+ recomendado) e um gerenciador de pacotes (**npm**, **yarn** ou **pnpm**).
+- Você tem uma máquina **Windows, Linux ou macOS** (compatível com qualquer sistema operacional com suporte a navegadores modernos).
+- Você leu a documentação básica do **React** e **Next.js** (ou da stack configurada no projeto).
+
+Para instalar o **Uno**, siga estas etapas:
+
+```bash
+# Clone o repositório
+git clone https://github.com/allbertuu/uno-web.git
+
+# Acesse a pasta do projeto
+cd uno-web
+
+# Instale as dependências
+npm install
+
+# Rode os testes
+npm test
