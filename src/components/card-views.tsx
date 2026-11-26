@@ -28,8 +28,16 @@ export default function CardViews() {
   const { setStats } = useStats();
 
   // Controle de tela atual: 'create' | 'focus' | 'victory'
-  const [view, setView] = useState(() => (activeTask ? "focus" : "create"));
+  const [view, setView] = useState("create");
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const syncView = () => {
+      setView(activeTask ? "focus" : "create");
+    };
+
+    syncView();
+  }, [activeTask]);
 
   // Estados do formulário de criação/edição
   const [titleInput, setTitleInput] = useState("");

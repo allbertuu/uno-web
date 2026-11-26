@@ -7,31 +7,37 @@ import { useEffect, useState } from "react";
 export default function ThemeToggle() {
   const THEME_KEY = localStorageKeys.THEME;
 
-  const [darkMode, setDarkMode] = useState(() => {
-    try {
-      const saved = localStorage.getItem(THEME_KEY);
-      if (saved) return saved === "dark";
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    } catch {
-      return false;
-    }
-  });
+  const [darkMode, setDarkMode] = useState<boolean>();
 
   useEffect(() => {
+    const syncLocalStorageTheme = () => {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved) {
+        const isDarkMode = saved === "dark";
+        setDarkMode(isDarkMode);
+      }
+    };
+
+    syncLocalStorageTheme();
+  }, [THEME_KEY]);
+
+  const toggleTheme = () => {
     const root = document.documentElement;
     if (darkMode) {
-      root.classList.add("dark");
-      localStorage.setItem(THEME_KEY, "dark");
-    } else {
       root.classList.remove("dark");
       localStorage.setItem(THEME_KEY, "light");
+      setDarkMode(false);
+    } else {
+      root.classList.add("dark");
+      localStorage.setItem(THEME_KEY, "dark");
+      setDarkMode(true);
     }
-  }, [THEME_KEY, darkMode]);
+  };
 
   return (
     <button
       type="button"
-      onClick={() => setDarkMode((prev) => !prev)}
+      onClick={() => toggleTheme()}
       aria-label="Alternar tema"
       className="cursor-pointer rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/80 dark:hover:text-zinc-100"
     >

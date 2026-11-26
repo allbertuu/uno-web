@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ActiveTaskProvider } from "@/contexts/active-task";
 import { StatsProvider } from "@/contexts/stats";
+import localStorageKeys from "@/constants/localStorageKeys";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +21,22 @@ export const metadata: Metadata = {
     "O Uno coloca apenas uma tarefa no centro da tela para tornar o trabalho mais fácil sem distrações, mais claro com critérios de aceite objetivos e mais satisfatório ao transformar cada entrega em uma conquista imediata.",
 };
 
+const THEME_KEY = localStorageKeys.THEME;
+
+const THEME_CLASS_INIT_SCRIPT = `
+  try {
+    var saved = window.localStorage.getItem("${THEME_KEY}");
+    var theme = saved === "dark" || saved === "light" ? saved : "light";
+    var cl = document.documentElement.classList;
+    cl.remove("light", "dark");
+    cl.add(theme);
+  } catch (e) {
+    var clFallback = document.documentElement.classList;
+    clFallback.remove("light", "dark");
+    clFallback.add("light");
+  }
+`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -27,6 +44,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_CLASS_INIT_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <StatsProvider>
           <ActiveTaskProvider>{children}</ActiveTaskProvider>

@@ -1,7 +1,13 @@
 "use client";
 
 import localStorageKeys from "@/constants/localStorageKeys";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 type PossibleActiveTaskStates = ActiveTask | null;
 
@@ -29,14 +35,19 @@ export interface ActiveTask {
 export function ActiveTaskProvider({ children }: { children: ReactNode }) {
   const STORAGE_KEY = localStorageKeys.STORAGE;
 
-  const [activeTask, setActiveTask] = useState<PossibleActiveTaskStates>(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw).activeTask || null : null;
-    } catch {
-      return null;
-    }
-  });
+  const [activeTask, setActiveTask] = useState<PossibleActiveTaskStates>(null);
+
+  useEffect(() => {
+    const syncLocalStorage = () => {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const activeTask = JSON.parse(saved).activeTask;
+        setActiveTask(activeTask);
+      }
+    };
+
+    syncLocalStorage();
+  }, [STORAGE_KEY]);
 
   return (
     <ActiveTaskContext.Provider value={{ activeTask, setActiveTask }}>
