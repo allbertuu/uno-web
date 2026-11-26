@@ -13,9 +13,9 @@ export default function App() {
       {/* HEADER DISCRETO & 2 ÍCONES DE CONQUISTA */}
       <header className="z-10 mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-6">
         {/* Identidade Minimalista */}
-        <div className="flex items-center gap-2.5 select-none">
-          <div className="h-3 w-3 rounded-full bg-zinc-900 shadow-sm dark:bg-zinc-100" />
-          <span className="text-sm font-semibold tracking-tight text-zinc-500 dark:text-zinc-400">
+        <div className="flex items-center gap-1 select-none">
+          <div className="h-3 w-3 rounded-full bg-zinc-900 shadow-sm sm:h-4 sm:w-4 dark:bg-zinc-100" />
+          <span className="pb-1 text-lg font-semibold tracking-tight text-zinc-500 sm:pb-2 sm:text-2xl dark:text-zinc-400">
             uno
           </span>
         </div>
