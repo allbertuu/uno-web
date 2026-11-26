@@ -249,7 +249,7 @@ export default function App() {
       </header>
 
       {/* ÁREA CENTRAL PRINCIPAL */}
-      <main className="flex flex-1 items-center justify-center px-4 py-6 sm:px-6">
+      <main className="flex flex-1 items-center justify-center px-4 py-3 sm:px-6">
         <div className="w-full max-w-135">
           {/* =========================================================
               VISÃO 1: CRIAÇÃO DA ÚNICA TAREFA
@@ -257,18 +257,11 @@ export default function App() {
           {view === "create" && (
             <section className="animate-uno-fade">
               <div className="mb-8 text-center">
-                <span className="mb-3 inline-block rounded-full bg-zinc-200/70 px-3 py-1 text-[11px] font-medium tracking-wide text-zinc-600 uppercase dark:bg-zinc-800/80 dark:text-zinc-400">
-                  Regra de Ouro: Apenas Uma
-                </span>
                 <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl dark:text-white">
                   {isEditing
                     ? "Ajustar sua missão atual"
                     : "O que realmente importa agora?"}
                 </h1>
-                <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-                  Escolha uma única missão. Você não poderá criar outra até
-                  conquistar esta.
-                </p>
               </div>
 
               <form
@@ -276,7 +269,7 @@ export default function App() {
                   e.preventDefault();
                   handleCreateSubmit();
                 }}
-                className="space-y-6 rounded-3xl border border-zinc-200/80 bg-white p-6 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] sm:p-8 dark:border-zinc-800/90 dark:bg-[#141417] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.45)]"
+                className="space-y-4 rounded-3xl border border-zinc-200/80 bg-white p-4 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] sm:p-6 dark:border-zinc-800/90 dark:bg-[#141417] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.45)]"
               >
                 {/* Título */}
                 <div>
@@ -405,7 +398,7 @@ export default function App() {
                 )}
 
                 {/* Ações do Formulário */}
-                <div className="flex flex-col gap-2 pt-2">
+                <div className="flex flex-col gap-2">
                   <button
                     type="submit"
                     className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-6 py-4 text-sm font-semibold tracking-tight text-white shadow-md transition-all hover:bg-zinc-800 hover:shadow-lg active:scale-[0.99] dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-100"
@@ -415,6 +408,12 @@ export default function App() {
                     </span>
                     <ArrowRight className="h-4 w-4" />
                   </button>
+
+                  {!isEditing && (
+                    <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                      Você não poderá criar outra até conquistar esta.
+                    </p>
+                  )}
 
                   {isEditing && (
                     <button
