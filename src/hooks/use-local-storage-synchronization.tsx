@@ -1,3 +1,5 @@
+"use client";
+
 import localStorageKeys from "@/constants/localStorageKeys";
 import { useActiveTask } from "@/contexts/active-task";
 import { useStats } from "@/contexts/stats";
