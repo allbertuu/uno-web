@@ -41,8 +41,8 @@ export default function CardViews() {
 
   // Estados do formulário de criação/edição
   const [titleInput, setTitleInput] = useState("");
-  const [deadlineInput, setDeadlineInput] = useState("Hoje às 18:00");
-  const [criteriaInputs, setCriteriaInputs] = useState(["", ""]);
+  const [deadlineInput, setDeadlineInput] = useState("");
+  const [criteriaInputs, setCriteriaInputs] = useState([""]);
   const [formError, setFormError] = useState("");
 
   // Estados da tela de foco e vitória
@@ -115,7 +115,7 @@ export default function CardViews() {
     }
     if (validCriteria.length === 0) {
       setFormError(
-        "Adicione pelo menos 1 critério de aceite para validar sua vitória.",
+        "Adicione pelo menos 1 ação para validar sua vitória.",
       );
       return;
     }
@@ -255,7 +255,7 @@ export default function CardViews() {
                 htmlFor="uno-task-title"
                 className="mb-2 ml-1 block text-xs font-medium text-zinc-500 dark:text-zinc-400"
               >
-                Título da Missão
+                Meu objetivo é...
               </label>
               <input
                 ref={titleRef}
@@ -264,7 +264,7 @@ export default function CardViews() {
                 maxLength={90}
                 value={titleInput}
                 onChange={(e) => setTitleInput(e.target.value)}
-                placeholder="Ex: Finalizar apresentação do projeto Q4"
+                placeholder="Ex: Me preparar para apresentação"
                 className="w-full rounded-2xl border border-zinc-200/90 bg-zinc-50 px-4 py-3.5 text-base font-medium text-zinc-900 placeholder-zinc-400 transition-all focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/10 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900/70 dark:text-white dark:placeholder-zinc-600 dark:focus:border-zinc-600 dark:focus:ring-white/15"
               />
             </div>
@@ -276,7 +276,7 @@ export default function CardViews() {
                   htmlFor="uno-task-deadline"
                   className="text-xs font-medium text-zinc-500 dark:text-zinc-400"
                 >
-                  Prazo de Conclusão
+                  Até...
                 </label>
                 <div className="flex items-center gap-1.5">
                   <button
@@ -284,7 +284,7 @@ export default function CardViews() {
                     onClick={() => handleQuickDeadline("1h")}
                     className="cursor-pointer rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800/90 dark:text-zinc-400 dark:hover:bg-zinc-700"
                   >
-                    Em 1h
+                    Daqui 1h
                   </button>
                   <button
                     type="button"
@@ -316,9 +316,9 @@ export default function CardViews() {
             <div>
               <div className="mb-2 ml-1 flex items-center justify-between">
                 <label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                  Critérios de Aceite{" "}
+                  Preciso...{" "}
                   <span className="font-normal text-zinc-400 dark:text-zinc-600">
-                    (obrigatórios para vencer)
+                    (pelo menos 1)
                   </span>
                 </label>
                 <span className="text-[11px] text-zinc-400 dark:text-zinc-500">
@@ -343,7 +343,7 @@ export default function CardViews() {
                           handleAddCriterion();
                         }
                       }}
-                      placeholder="Ex: Revisar ortografia e exportar PDF"
+                      placeholder="Ex: Terminar o rascunho"
                       className="flex-1 rounded-xl border border-zinc-200/80 bg-zinc-50 px-3.5 py-2.5 text-sm text-zinc-800 placeholder-zinc-400 transition-colors focus:border-zinc-400 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900/70 dark:text-zinc-200 dark:placeholder-zinc-600 dark:focus:border-zinc-600"
                     />
                     <button
@@ -364,7 +364,7 @@ export default function CardViews() {
                 className="mt-3 inline-flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-zinc-600 transition-all hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/60 dark:hover:text-white"
               >
                 <Plus className="h-3.5 w-3.5" />
-                Adicionar critério de aceite
+                Preciso de mais um
               </button>
             </div>
 
@@ -428,12 +428,12 @@ export default function CardViews() {
             <div className="mb-6 flex flex-wrap items-center justify-between gap-2 pt-1">
               <div className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-800/90 dark:text-zinc-300">
                 <Clock className="h-3.5 w-3.5 text-zinc-400" />
-                <span>{activeTask.deadline}</span>
+                <span>Concluir até: {activeTask.deadline}</span>
               </div>
 
               {progressPercent === 0 && (
                 <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
-                  Comece pelo primeiro passo
+                  Comece pelo 1º passo
                 </span>
               )}
               {progressPercent > 0 && progressPercent < 100 && (
@@ -457,7 +457,7 @@ export default function CardViews() {
             <div className="mb-9">
               <div className="mb-3.5 flex items-center justify-between">
                 <span className="text-xs font-semibold tracking-wider text-zinc-400 uppercase dark:text-zinc-500">
-                  Critérios de Aceite
+                  Ações necessárias
                 </span>
                 <span className="text-xs font-medium text-zinc-500 tabular-nums dark:text-zinc-400">
                   {completedCriteria} de {totalCriteria} concluídos
@@ -521,8 +521,8 @@ export default function CardViews() {
                   {isReadyToConquer
                     ? "Conquistar Tarefa"
                     : remainingCount === 1
-                      ? "Falta 1 critério para conquistar"
-                      : `Faltam ${remainingCount} critérios para conquistar`}
+                      ? "Falta 1 ação para conquistar"
+                      : `Faltam ${remainingCount} ações para conquistar`}
                 </span>
               </button>
 
