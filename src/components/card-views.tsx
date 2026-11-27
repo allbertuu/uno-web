@@ -23,6 +23,12 @@ const VICTORY_QUOTES = [
   "Missão cumprida. Sinta o peso sair dos ombros.",
 ];
 
+const INPUTS_DEFAULTS = {
+  title: "",
+  deadline: "",
+  criterias: [""],
+};
+
 export default function CardViews() {
   const { activeTask, setActiveTask } = useActiveTask();
   const { setStats } = useStats();
@@ -33,16 +39,20 @@ export default function CardViews() {
 
   useEffect(() => {
     const syncView = () => {
-      setView(activeTask ? "focus" : "create");
+      if (activeTask) {
+        setView("focus");
+      }
     };
 
     syncView();
-  }, [activeTask]);
+  }, [activeTask, view]);
 
   // Estados do formulário de criação/edição
-  const [titleInput, setTitleInput] = useState("");
-  const [deadlineInput, setDeadlineInput] = useState("");
-  const [criteriaInputs, setCriteriaInputs] = useState([""]);
+  const [titleInput, setTitleInput] = useState(INPUTS_DEFAULTS.title);
+  const [deadlineInput, setDeadlineInput] = useState(INPUTS_DEFAULTS.deadline);
+  const [criteriaInputs, setCriteriaInputs] = useState(
+    INPUTS_DEFAULTS.criterias,
+  );
   const [formError, setFormError] = useState("");
 
   // Estados da tela de foco e vitória
@@ -114,9 +124,7 @@ export default function CardViews() {
       return;
     }
     if (validCriteria.length === 0) {
-      setFormError(
-        "Adicione pelo menos 1 ação para validar sua vitória.",
-      );
+      setFormError("Adicione pelo menos 1 ação para validar sua vitória.");
       return;
     }
 
@@ -198,9 +206,9 @@ export default function CardViews() {
   };
 
   const resetForm = () => {
-    setTitleInput("");
-    setDeadlineInput("Hoje às 18:00");
-    setCriteriaInputs(["", ""]);
+    setTitleInput(INPUTS_DEFAULTS.title);
+    setDeadlineInput(INPUTS_DEFAULTS.deadline);
+    setCriteriaInputs(INPUTS_DEFAULTS.criterias);
     setFormError("");
   };
 
